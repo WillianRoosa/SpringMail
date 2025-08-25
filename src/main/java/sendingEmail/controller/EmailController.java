@@ -9,7 +9,6 @@ import sendingEmail.service.EmailService;
 
 @RestController
 @RequestMapping("/api/email")
-@CrossOrigin(origins = "https://willianroosa.github.io/PortfolioDev")
 public class EmailController {
 
     @Autowired
