@@ -7,8 +7,6 @@ import sendingEmail.dto.ContactRequest;
 import sendingEmail.dto.Response;
 import sendingEmail.service.EmailService;
 
-import java.util.concurrent.ExecutionException;
-
 @RestController
 @RequestMapping("/api/email")
 public class EmailController {
@@ -17,13 +15,13 @@ public class EmailController {
     private EmailService emailService;
 
     @PostMapping("/send")
-    public Response enviarEmail(@Valid @RequestBody ContactRequest request) throws ExecutionException, InterruptedException {
+    public Response enviarEmail(@Valid @RequestBody ContactRequest request) {
         System.out.println("📥 Recebido: " + request);
-        boolean enviado = emailService.processoContato(request).get();
-        if (enviado) {
-            return new Response("success", "✅ Email enviado com sucesso!");
-        } else {
-            return new Response("error", "❌ Erro ao enviar email...");
-        }
+        emailService.processoContato(request)
+                .exceptionally(err -> {
+                    System.err.println("❌ Erro ao enviar e-mail: " + err.getMessage());
+                    return false;
+                });
+        return new Response("success", "✅ E-mail sendo processado...");
     }
 }
