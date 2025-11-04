@@ -3,6 +3,7 @@ package sendingEmail.service;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import sendingEmail.config.MailProperties;
 import sendingEmail.dto.ContactRequest;
@@ -63,6 +64,7 @@ public class EmailService {
         return enviar(request.getEmail(), request.getNome(), assunto, corpo);
     }
 
+    @Async
     public boolean processoContato(ContactRequest request) {
         boolean adminOk = enviarNotificacaoContato(request);
         boolean usuarioOk = enviarRespostaAutomatica(request);
