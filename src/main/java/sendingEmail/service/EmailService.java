@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import sendingEmail.config.MailProperties;
 import sendingEmail.dto.ContactRequest;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
 public class EmailService {
 
@@ -65,9 +67,11 @@ public class EmailService {
     }
 
     @Async
-    public boolean processoContato(ContactRequest request) {
+    public CompletableFuture<Boolean> processoContato(ContactRequest request) {
         boolean adminOk = enviarNotificacaoContato(request);
         boolean usuarioOk = enviarRespostaAutomatica(request);
-        return adminOk && usuarioOk;
+
+        boolean sucesso = adminOk && usuarioOk;
+        return CompletableFuture.completedFuture(sucesso);
     }
 }
