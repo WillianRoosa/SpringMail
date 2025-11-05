@@ -1,10 +1,11 @@
 package sendingEmail.service;
 
-import jakarta.mail.internet.MimeMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import com.google.api.client.auth.oauth2.Credential;
+import jakarta.annotation.PostConstruct;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import sendingEmail.Auth.GmailAuth;
+import sendingEmail.Auth.GmailService;
 import sendingEmail.config.MailProperties;
 import sendingEmail.dto.ContactRequest;
 
@@ -13,32 +14,41 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    private final String AUTHOTIZED_EMAIL = "willian.dev2025@gmail.com";
     private final MailProperties mailProperties;
+    private GmailService gmailService;
 
-    public EmailService(JavaMailSender mailSender, MailProperties mailProperties) {
-        this.mailSender = mailSender;
+    public EmailService(MailProperties mailProperties) {
         this.mailProperties = mailProperties;
     }
 
-    private boolean enviar(String destinatarioEmail, String destinatarioNome, String assunto, String corpoHTML) {
+    @PostConstruct
+    public void init() {
+        try {
+            Credential credential = GmailAuth.authorize();
+            this.gmailService = new GmailService(credential);
+            System.out.println("✅ GmailService inicializado com credenciais OAuth.");
+        } catch (Exception e) {
+            System.err.println("❌ Erro ao inicializar o GmailService. Verifique se as credenciais foram geradas e se client_secret.json está presente na raiz (apenas para a primeira execução). Detalhe: " + e.getMessage());
+        }
+    }
+
+    private boolean enviar(String remetenteEmail, String destinatarioEmail, String assunto, String corpoHTML) {
+        if (gmailService == null) {
+            System.err.println("❌ Serviço de e-mail indisponível. Inicialização OAuth falhou.");
+            return false;
+        }
+
         if (destinatarioEmail == null || destinatarioEmail.trim().isEmpty()) {
             System.err.println("❌ E-mail do destinatário está vazio.");
             return false;
         }
+
         try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setFrom(mailProperties.getFrom(), "Willian Rosa - Portfólio!");
-            helper.setTo(destinatarioEmail);
-            helper.setSubject(assunto);
-            helper.setText(corpoHTML, true);
-
-            mailSender.send(message);
-            System.out.println("✅ E-mail enviado para " + destinatarioEmail);
+            gmailService.sendEmail(remetenteEmail, destinatarioEmail, assunto, corpoHTML);
             return true;
         } catch (Exception e) {
+            System.err.println("❌ Erro ao enviar e-mail para " + destinatarioEmail);
             e.printStackTrace();
             return false;
         }
@@ -48,12 +58,13 @@ public class EmailService {
         String assunto = "📩 Novo contato do portfólio";
         String corpo = """
                 <h2>Nova mensagem recebida</h2>
-                <p><b>Nome:</b> %s</p>
-                <p><b>Email:</b> %s</p>
-                <p><b>WhatsApp:</b> %s</p>
-                <p><b>Mensagem:</b> %s</p>
+                <p><b>Nome:</b></p>
+                <p><b>Email:</b></p>
+                <p><b>WhatsApp:</b></p>
+                <p><b>Mensagem:</b></p>
                 """.formatted(request.getNome(), request.getEmail(), request.getTelefone(), request.getMensagem());
-        return enviar(mailProperties.getAdminEmail(), "Willian Rosa", assunto, corpo);
+
+        return enviar(AUTHOTIZED_EMAIL, mailProperties.getAdminEmail(), assunto, corpo);
     }
 
     public boolean enviarRespostaAutomatica(ContactRequest request) {
@@ -63,7 +74,8 @@ public class EmailService {
                 <p>Obrigado por entrar em contato! Recebemos sua mensagem e responderemos em breve.</p>
                 <p>Atenciosamente,<br><b>Willian Rosa - Developer</b></p>
                 """.formatted(request.getNome());
-        return enviar(request.getEmail(), request.getNome(), assunto, corpo);
+
+        return enviar(AUTHOTIZED_EMAIL, request.getEmail(), assunto, corpo);
     }
 
     @Async

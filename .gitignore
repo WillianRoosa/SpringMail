@@ -39,3 +39,9 @@ build/
 
 ### .ENV com senha do google SMTP ###
 .env
+
+### Contém a Senha da Google Cloud ###
+client_secret.json
+
+### Contém o Refresh token ###
+tokens/StoredCredential
