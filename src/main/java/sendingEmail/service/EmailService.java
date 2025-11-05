@@ -4,8 +4,8 @@ import com.google.api.client.auth.oauth2.Credential;
 import jakarta.annotation.PostConstruct;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import sendingEmail.Auth.GmailAuth;
-import sendingEmail.Auth.GmailService;
+import sendingEmail.auth.GmailAuth;
+import sendingEmail.auth.GmailService;
 import sendingEmail.config.MailProperties;
 import sendingEmail.dto.ContactRequest;
 
