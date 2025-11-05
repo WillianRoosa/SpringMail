@@ -48,4 +48,3 @@ client_secret*.json
 
 # Classes de extração/uso local
 src/main/java/`1sendingEmail/auth/TokenExtractor.java
-TokenExtractor.java
