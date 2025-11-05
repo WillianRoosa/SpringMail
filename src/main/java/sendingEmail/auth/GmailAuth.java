@@ -12,6 +12,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -70,6 +71,7 @@ public class GmailAuth {
             )
                     .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIR)))
                     .setAccessType("offline")
+                    .setApprovalPrompt("force")
                     .build();
 
             LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
