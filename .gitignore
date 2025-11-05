@@ -42,7 +42,6 @@ build/
 
 # Tokens e credenciais
 tokens/
-*.json
 *.p12
 
 # Classes de extração/uso local
