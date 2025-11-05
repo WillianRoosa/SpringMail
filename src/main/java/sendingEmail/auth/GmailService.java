@@ -35,8 +35,8 @@ public class GmailService {
 
         email.setFrom(new InternetAddress(fromEmail));
         email.addRecipient(RecipientType.TO, new InternetAddress(to));
-        email.setSubject(subject);
-        email.setText(bodyText);
+        email.setSubject(subject, "UTF-8");
+        email.setContent(bodyText, "text/html; charset=utf-8");
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);
