@@ -58,10 +58,10 @@ public class EmailService {
         String assunto = "📩 Novo contato do portfólio";
         String corpo = """
                 <h2>Nova mensagem recebida</h2>
-                <p><b>Nome:</b></p>
-                <p><b>Email:</b></p>
-                <p><b>WhatsApp:</b></p>
-                <p><b>Mensagem:</b></p>
+                <p><b>Nome:</b> %s</p>
+                <p><b>Email:</b> %s</p>
+                <p><b>WhatsApp:</b> %s</p>
+                <p><b>Mensagem:</b> %s</p>
                 """.formatted(request.getNome(), request.getEmail(), request.getTelefone(), request.getMensagem());
 
         return enviar(AUTHOTIZED_EMAIL, mailProperties.getAdminEmail(), assunto, corpo);
