@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>sendingEmail</groupId>
     <artifactId>SpringMail</artifactId>
@@ -12,7 +13,6 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Versões Unificadas para Google APIs -->
         <google-client.version>2.6.0</google-client.version>
         <google-oauth.version>1.34.1</google-oauth.version>
     </properties>
@@ -21,7 +21,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.2</version>
-        <relativePath/> <!-- Puxa do Spring Boot -->
+        <relativePath/>
     </parent>
 
     <dependencies>
@@ -31,7 +31,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Envio de emails (Traz a API Jakarta Mail para MimeMessage) -->
+        <!-- Envio de emails -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
@@ -50,34 +50,32 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Dotenv para variáveis locais -->
+        <!-- Dotenv -->
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-java</artifactId>
             <version>3.0.0</version>
         </dependency>
 
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
 
-        <!-- === GOOGLE API DEPENDENCIES (Versões Unificadas) === -->
+        <!-- === GOOGLE API DEPENDENCIES === -->
 
-        <!-- Google API Client (Core - Versão 2.x) -->
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client</artifactId>
             <version>${google-client.version}</version>
         </dependency>
 
-        <!-- OAuth2 Client + Jetty (Necessário para a autenticação) -->
         <dependency>
             <groupId>com.google.oauth-client</groupId>
             <artifactId>google-oauth-client-jetty</artifactId>
             <version>${google-oauth.version}</version>
-            <!-- Exclui a dependência Gson antiga para evitar conflito com a nova implementação -->
             <exclusions>
                 <exclusion>
                     <groupId>com.google.http-client</groupId>
@@ -86,24 +84,18 @@
             </exclusions>
         </dependency>
 
-        <!-- Gmail API -->
         <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-gmail</artifactId>
             <version>v1-rev20240520-2.0.0</version>
         </dependency>
 
-        <!-- JSON PARSERS -->
-
-        <!-- Gson (Mantido para seu uso no GmailAuth.java para parsing de Strings) -->
+        <!-- JSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <!-- A versão do Spring Boot parent é 2.11.0, vamos usá-la. -->
         </dependency>
 
-        <!-- Jackson (JSON Handling) -->
-        <!-- O Jackson agora é injetado diretamente, e não mais via google-http-client-jackson2. -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -112,30 +104,46 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
-
     </dependencies>
+
+    <!-- 🔧 Força o Maven Central no Render -->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <plugins>
+            <!-- Spring Boot build -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!-- Explicit maven-compiler-plugin to set release to Java 21 -->
+
+            <!-- Java Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <!-- Use release to set both source/target and the API level -->
                     <release>21</release>
                 </configuration>
             </plugin>
-            <!-- Enforce Java version at build time -->
+
+            <!-- Java Version Enforcer -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.4.1</version>
                 <executions>
                     <execution>
                         <id>enforce-java</id>
@@ -155,4 +163,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
