@@ -44,7 +44,6 @@ build/
 tokens/
 *.json
 *.p12
-client_secret*.json
 
 # Classes de extração/uso local
 src/main/java/sendingEmail/auth/TokenExtractor.java
