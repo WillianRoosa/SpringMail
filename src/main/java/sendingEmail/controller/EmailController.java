@@ -19,9 +19,9 @@ public class EmailController {
         System.out.println("📥 Recebido: " + request);
         emailService.processoContato(request)
                 .exceptionally(err -> {
-                    System.err.println("❌ Erro ao enviar e-mail: " + err.getMessage());
+                    System.err.println("Erro ao enviar e-mail: " + err.getMessage());
                     return false;
                 });
-        return new Response("success", "✅ E-mail sendo processado...");
+        return new Response("success", "E-mail sendo processado...");
     }
 }

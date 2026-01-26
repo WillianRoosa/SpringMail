@@ -48,9 +48,9 @@ public class GmailService {
 
         try {
             gmailService.users().messages().send("me", message).execute();
-            System.out.println("✅ Email enviado com sucesso para: " + to);
+            System.out.println("Email enviado com sucesso para: " + to);
         } catch (com.google.api.client.googleapis.json.GoogleJsonResponseException e) {
-            System.err.println("❌ Erro da API do Google (Código: " + e.getStatusCode() + "): " + e.getMessage());
+            System.err.println("Erro da API do Google (Código: " + e.getStatusCode() + "): " + e.getMessage());
             throw e;
         }
     }

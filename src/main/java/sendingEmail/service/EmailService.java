@@ -27,20 +27,20 @@ public class EmailService {
         try {
             Credential credential = GmailAuth.authorize();
             this.gmailService = new GmailService(credential);
-            System.out.println("✅ GmailService inicializado com credenciais OAuth.");
+            System.out.println("GmailService inicializado com credenciais OAuth.");
         } catch (Exception e) {
-            System.err.println("❌ Erro ao inicializar o GmailService. Verifique se as credenciais foram geradas e se client_secret.json está presente na raiz (apenas para a primeira execução). Detalhe: " + e.getMessage());
+            System.err.println("Erro ao inicializar o GmailService. Verifique se as credenciais foram geradas e se client_secret.json está presente na raiz (apenas para a primeira execução). Detalhe: " + e.getMessage());
         }
     }
 
     private boolean enviar(String remetenteEmail, String destinatarioEmail, String assunto, String corpoHTML) {
         if (gmailService == null) {
-            System.err.println("❌ Serviço de e-mail indisponível. Inicialização OAuth falhou.");
+            System.err.println("Serviço de e-mail indisponível. Inicialização OAuth falhou.");
             return false;
         }
 
         if (destinatarioEmail == null || destinatarioEmail.trim().isEmpty()) {
-            System.err.println("❌ E-mail do destinatário está vazio.");
+            System.err.println("E-mail do destinatário está vazio.");
             return false;
         }
 
@@ -48,7 +48,7 @@ public class EmailService {
             gmailService.sendEmail(remetenteEmail, destinatarioEmail, assunto, corpoHTML);
             return true;
         } catch (Exception e) {
-            System.err.println("❌ Erro ao enviar e-mail para " + destinatarioEmail);
+            System.err.println("Erro ao enviar e-mail para " + destinatarioEmail);
             e.printStackTrace();
             return false;
         }
