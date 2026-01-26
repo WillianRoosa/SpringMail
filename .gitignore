@@ -45,5 +45,4 @@ tokens/
 *.json
 *.p12
 client_secret*.json
-
-# Classes de extração/uso local
+StoredCredential
