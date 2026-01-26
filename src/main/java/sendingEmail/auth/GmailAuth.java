@@ -27,8 +27,8 @@ public class GmailAuth {
     public static Credential authorize() throws Exception {
         var httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
-        String clientSecretJsonEnv = System.getenv("GOOGLE_CLIENT_SECRET_JSON");
-        String storedCredentialJsonEnv = System.getenv("GOOGLE_STORED_CREDENTIAL_JSON");
+        String clientSecretJsonEnv = System.getenv("GOOGLE_CLIENT_SECRET");
+        String storedCredentialJsonEnv = System.getenv("GOOGLE_GMAIL_REFRESH_TOKEN");
 
         if (clientSecretJsonEnv != null && storedCredentialJsonEnv != null) {
             System.out.println("✅ Detectado ambiente de produção. Carregando credenciais das variáveis de ambiente.");
