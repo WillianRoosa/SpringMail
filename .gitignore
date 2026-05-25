@@ -39,3 +39,4 @@ build/
 
 ### .ENV com senha do google SMTP ###
 .env
+.idea/
