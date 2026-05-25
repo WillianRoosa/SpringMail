@@ -1,57 +1,33 @@
 package com.willian.springmail.auth;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.model.Message;
-
-import jakarta.mail.Session;
-import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.mail.Message.RecipientType;
-import jakarta.mail.MessagingException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Base64;
-import java.util.Properties;
-
+@Component
 public class GmailService {
-    private final Gmail gmailService;
-    private static final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    private final JavaMailSender mailSender;
 
-    public GmailService(Credential credential) throws Exception {
-        var httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        gmailService = new Gmail.Builder(httpTransport, JSON_FACTORY, credential)
-                .setApplicationName("SpringMailApp")
-                .build();
+    public GmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
     }
 
-    public void sendEmail(String fromEmail, String to, String subject, String bodyText) throws MessagingException, IOException {
-        Properties properties = new Properties();
-        Session session = Session.getDefaultInstance(properties, null);
-        MimeMessage email = new MimeMessage(session);
-
-        email.setFrom(new InternetAddress(fromEmail));
-        email.addRecipient(RecipientType.TO, new InternetAddress(to));
-        email.setSubject(subject, "UTF-8");
-        email.setContent(bodyText, "text/html; charset=utf-8");
-
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        email.writeTo(buffer);
-
-        String encodeEmail = Base64.getUrlEncoder().encodeToString(buffer.toByteArray());
-
-        Message message = new Message();
-        message.setRaw(encodeEmail);
-
+    public void sendMail(String from, String to, String subject, String bodyHtml) {
         try {
-            gmailService.users().messages().send("me", message).execute();
-            System.out.println("Email enviado com sucesso para: " + to);
-        } catch (com.google.api.client.googleapis.json.GoogleJsonResponseException e) {
-            System.err.println("Erro da API do Google (Código: " + e.getStatusCode() + "): " + e.getMessage());
-            throw e;
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom(from);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(bodyHtml, true);
+
+            mailSender.send(message);
+            System.out.println("[GMAIL] Email enviado com sucesso para: " + to);
+        } catch (Exception e) {
+            System.err.println("[GMAIL] Erro ao enviar email para: " + to + " | motivo: " + e.getMessage());
+            throw new RuntimeException("Falha ao enviar email para: " + to, e);
         }
     }
 }

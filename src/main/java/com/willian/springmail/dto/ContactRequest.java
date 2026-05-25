@@ -7,15 +7,15 @@ import lombok.Data;
 @Data
 public class ContactRequest {
     @NotBlank
-    private String nome;
+    private String name;
 
     @Email
     @NotBlank
-    private String email;
+    private String mail;
 
     @NotBlank
-    private String telefone;
+    private String phone;
 
     @NotBlank
-    private String mensagem;
+    private String message;
 }

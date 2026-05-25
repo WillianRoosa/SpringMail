@@ -39,10 +39,3 @@ build/
 
 ### .ENV com senha do google SMTP ###
 .env
-
-# Tokens e credenciais
-tokens/
-*.json
-*.p12
-client_secret*.json
-StoredCredential

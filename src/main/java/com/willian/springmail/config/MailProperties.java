@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "mail")
 public class MailProperties {
     private String from;
-    private String adminEmail;
+    private String adminMail;
 
     public String getFrom() {
         return from;
@@ -17,11 +17,11 @@ public class MailProperties {
         this.from = from;
     }
 
-    public String getAdminEmail() {
-        return adminEmail;
+    public String getAdminMail() {
+        return adminMail;
     }
 
-    public void setAdminEmail(String adminEmail) {
-        this.adminEmail = adminEmail;
+    public void setAdminMail(String adminMail) {
+        this.adminMail = adminMail;
     }
 }

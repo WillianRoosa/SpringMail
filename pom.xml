@@ -13,8 +13,6 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <google-client.version>2.6.0</google-client.version>
-        <google-oauth.version>1.34.1</google-oauth.version>
     </properties>
 
     <parent>
@@ -31,7 +29,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Envio de emails -->
+        <!-- Envio de emails via SMTP -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
@@ -50,7 +48,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Dotenv -->
+        <!-- Dotenv (variáveis locais via .env) -->
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-java</artifactId>
@@ -62,32 +60,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-
-        <!-- === GOOGLE API DEPENDENCIES === -->
-
-        <dependency>
-            <groupId>com.google.api-client</groupId>
-            <artifactId>google-api-client</artifactId>
-            <version>${google-client.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.oauth-client</groupId>
-            <artifactId>google-oauth-client-jetty</artifactId>
-            <version>${google-oauth.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.http-client</groupId>
-                    <artifactId>google-http-client-gson</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.apis</groupId>
-            <artifactId>google-api-services-gmail</artifactId>
-            <version>v1-rev20240520-2.0.0</version>
         </dependency>
 
         <!-- JSON -->
@@ -106,7 +78,6 @@
         </dependency>
     </dependencies>
 
-    <!-- 🔧 Força o Maven Central no Render -->
     <repositories>
         <repository>
             <id>central</id>
@@ -123,13 +94,11 @@
 
     <build>
         <plugins>
-            <!-- Spring Boot build -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Java Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -139,7 +108,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Java Version Enforcer -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
