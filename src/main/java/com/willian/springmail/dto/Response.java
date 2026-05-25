@@ -1,4 +1,4 @@
-package sendingEmail.dto;
+package com.willian.springmail.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

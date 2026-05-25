@@ -1,4 +1,4 @@
-package sendingEmail.dto;
+package com.willian.springmail.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package sendingEmail.config;
+package com.willian.springmail.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

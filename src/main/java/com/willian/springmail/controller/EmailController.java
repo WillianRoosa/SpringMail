@@ -1,11 +1,11 @@
-package sendingEmail.controller;
+package com.willian.springmail.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sendingEmail.dto.ContactRequest;
-import sendingEmail.dto.Response;
-import sendingEmail.service.EmailService;
+import com.willian.springmail.dto.ContactRequest;
+import com.willian.springmail.dto.Response;
+import com.willian.springmail.service.EmailService;
 
 @RestController
 @RequestMapping("/api/email")

@@ -1,13 +1,13 @@
-package sendingEmail.service;
+package com.willian.springmail.service;
 
 import com.google.api.client.auth.oauth2.Credential;
 import jakarta.annotation.PostConstruct;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import sendingEmail.auth.GmailAuth;
-import sendingEmail.auth.GmailService;
-import sendingEmail.config.MailProperties;
-import sendingEmail.dto.ContactRequest;
+import com.willian.springmail.auth.GmailAuth;
+import com.willian.springmail.auth.GmailService;
+import com.willian.springmail.config.MailProperties;
+import com.willian.springmail.dto.ContactRequest;
 
 import java.util.concurrent.CompletableFuture;
 
