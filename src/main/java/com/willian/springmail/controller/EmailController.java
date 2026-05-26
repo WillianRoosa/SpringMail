@@ -14,6 +14,11 @@ public class EmailController {
     @Autowired
     private MailService mailService;
 
+    @GetMapping("/health")
+    public Response health() {
+        return new Response("ok", "Service is running");
+    }
+
     @PostMapping("/send")
     public Response sendingMail(@Valid @RequestBody ContactRequest request) {
         System.out.println("📥 Recebido: " + request);
