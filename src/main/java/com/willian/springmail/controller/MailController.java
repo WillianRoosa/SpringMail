@@ -9,7 +9,7 @@ import com.willian.springmail.service.MailService;
 
 @RestController
 @RequestMapping("/api/email")
-public class EmailController {
+public class MailController {
 
     @Autowired
     private MailService mailService;
